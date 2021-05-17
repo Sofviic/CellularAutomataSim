@@ -3,58 +3,63 @@ using System.Windows.Forms;
 using System.Drawing;
 
 namespace cstest {
-    class MainClass {
+	class MainClass {
 		[STAThread]
 		public static void Main(string[] args) {
-            Console.WriteLine("Hello World!");
-
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
-			Form1 form = new Form1();
-			Application.Run(form);
+			Application.Run(new Form1());
 		}
-    }
+	}
 	public class Form1 : Form {
+		//////////////////////////////////////////////////////////////////////////////////////////AUTO-GENERATED
 		private System.ComponentModel.IContainer components = null;
 
-		public Form1() {
-			InitializeComponent();
-		}
+		public Form1() => InitializeComponent();
 
 		protected override void Dispose(bool disposing) {
-			if (disposing && (components != null)) {
-				components.Dispose();
-			}
+			if(disposing && (components != null)) components.Dispose();
 			base.Dispose(disposing);
 		}
 
-		private void paint_something(object sender, PaintEventArgs e) {
-			Pen pen = new Pen(Color.AliceBlue, 50f);
-
-			e.Graphics.DrawLine(pen, 0, 0, 400, 400);
-		}
-
 		public void InitializeComponent() {
-			Console.WriteLine("Init");
-			this.SuspendLayout();
-			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(800, 450);
-			this.Name = "Form1";
-			this.Text = "Form1";
-			this.ResumeLayout(false);
+			SuspendLayout();
+			AutoScaleDimensions = new SizeF(6F, 13F);
+			AutoScaleMode = AutoScaleMode.Font;
+			ClientSize = new Size(800, 450);
+			Name = "Form1";
+			Text = "Form1";
+			ResumeLayout(false);
+			Init();
+		}
+		//////////////////////////////////////////////////////////////////////////////////////////CODE
 
-			pictureBox = new PictureBox {
-				BackColor = Color.Aqua,
-				Size = new Size(256, 256),
+		private void paint_something(object sender, PaintEventArgs e) {
+			Pen pen = new Pen(Color.LemonChiffon, 1f);
+
+			for(int j = 0; j < gridSize.Height; ++j)
+				for(int i = 0; i < gridSize.Width; ++i)
+					if((j + i) % 2 == 0)
+						e.Graphics.FillRectangle(pen.Brush, cellSize.Width * i, cellSize.Height * j, cellSize.Width, cellSize.Height);
+			
+		}
+		
+		Size cellSize = new Size(10, 10);
+		Size gridSize = new Size(30, 30);
+
+		private void Init() {
+			ClientSize = Mul(cellSize, gridSize);
+
+			PictureBox pictureBox = new PictureBox {
+				BackColor = Color.Black,
+				ClientSize = ClientSize,
 				Location = new Point(0, 0)
 			};
 
 			pictureBox.Paint += paint_something;
-
 			Controls.Add(pictureBox);
 		}
 
-		PictureBox pictureBox;
+		Size Mul(Size a, Size b) => new Size(a.Width * b.Width, a.Height * b.Height);
 	}
 }
