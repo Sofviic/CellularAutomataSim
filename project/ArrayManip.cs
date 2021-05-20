@@ -8,10 +8,6 @@ namespace CASim {
 			// ie, T[,][,] res = new T[x, y][3, 3];
 			T[,][,] res = new T[x, y][,];
 			for(int j = 0; j < y; ++j)
-				for(int i = 0; i < x; ++i)
-					res[i, j] = new T[3, 3];
-
-			for(int j = 0; j < y; ++j)
 				for(int i = 0; i < x; ++i) {
 					res[i, j] = new T[,]{
 						{ grid[Mod(i - 1, x), Mod(j - 1, y)], grid[Mod(i - 0, x), Mod(j - 1, y)], grid[Mod(i + 1, x), Mod(j - 1, y)] },
