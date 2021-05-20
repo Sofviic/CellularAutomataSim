@@ -52,16 +52,16 @@ namespace CASim {
 			Controls.Add(pictureBox);
 
 			ca = new int[gridSize.Width, gridSize.Height];
-			ca = ca.FillCA((i, j) => j == 3 && i > 0 && i < 4 || j == 2 && i == 3 || j == 1 && i == 2);
+			ca = ca.FillCA((i, j) => j == 3 && i > 0 && i < 4 || j == 2 && i == 3 || j == 1 && i == 2 ? 1 : 0);
 			ca2 = (int[,])ca.Clone();
 			buf = ca.Draw(cellSize);
 		}
 
 		private void Tick(object sender, EventArgs e) {
 			if(fbuf)
-				ca2 = ca.UpdateCA(CA.conway);
+				ca2 = ca.UpdateCA(new Func<int[,], bool>[] { CA.conway }.Compose());
 			else
-				ca = ca2.UpdateCA(CA.conway);
+				ca = ca2.UpdateCA(new Func<int[,], bool>[] { CA.conway }.Compose());
 			fbuf = !fbuf;
 			Refresh();
 		}
