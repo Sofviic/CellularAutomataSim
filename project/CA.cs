@@ -48,11 +48,23 @@ namespace CASim {
 			return oldImg;
 		}
 
-		public static Func<int[,], bool> conway = g => g.Flatten().Sum() == 3 || g.Flatten().Sum() == 4 && g[1, 1] == 1;
+		public static Func<bool[,], bool> conway = g => g.Flatten().Select(x => x ? 1 : 0).Sum() == 3 || g.Flatten().Select(x => x ? 1 : 0).Sum() == 4 && g[1, 1];
+		public static Func<bool[,], bool> wall = g => false;
+		//public static Func<bool[,], bool> water = g => g[0, 0] || g[1, 0] || g[2, 0]; doesn't work
+		//public static Func<bool[,], bool> sand = g => g[0, 0] || g[1, 0] || g[2, 0] || g[0, 1] || g[2, 1]; doesn't work
 
 		// Input: [Rule 1, Rule 2, Rule 3, ...]
 		// Output: First rule that returns true, will return it's index number + 1; otherwise SHOULD(needs to be checked) return 0.
-		public static Func<int[,], int> Compose(this Func<int[,], bool>[] fs) => arr => fs.Select((f, i) => (i + 1, f(arr))).Where((b, i) => b.Item2).FirstOrDefault().Item1;
+		public static Func<int[,], int> Compose(this Func<bool[,], bool>[] fs) => arr => fs.Select((f, i) => (i + 1, f(arr.Select(x => x == i + 1)))).Where((b, i) => b.Item2).FirstOrDefault().Item1;
+
+		public static K[,] Select<T, K>(this T[,] grid, Func<T, K> f) {
+			var (x, y) = grid.Size();
+			K[,] res = new K[x, y];
+			for(int j = 0; j < y; ++j)
+				for(int i = 0; i < x; ++i)
+					res[i, j] = f(grid[i, j]);
+			return res;
+		}
 
 		public static (int, int) Size<T>(this T[,] grid) => (grid.GetLength(0), grid.GetLength(1));
 	}

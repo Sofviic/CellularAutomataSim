@@ -59,11 +59,13 @@ namespace CASim {
 
 		private void Tick(object sender, EventArgs e) {
 			if(fbuf)
-				ca2 = ca.UpdateCA(new Func<int[,], bool>[] { CA.conway }.Compose());
+				ca2 = Updates(ca);
 			else
-				ca = ca2.UpdateCA(new Func<int[,], bool>[] { CA.conway }.Compose());
+				ca = Updates(ca2);
 			fbuf = !fbuf;
 			Refresh();
 		}
+
+		private int[,] Updates(int[,] grid) => grid.UpdateCA(new Func<bool[,], bool>[] { CA.sand }.Compose());
 	}
 }
