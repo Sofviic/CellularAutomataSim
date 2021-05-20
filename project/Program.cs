@@ -48,6 +48,9 @@ namespace cstest {
 		int[,] ca;
 
 		private void Init() {
+			cellSize = new Size(10, 10);
+			gridSize = new Size(30, 30);
+
 			ClientSize = Mul(cellSize, gridSize);
 
 			PictureBox pictureBox = new PictureBox {
@@ -59,8 +62,6 @@ namespace cstest {
 			pictureBox.Paint += Draw;
 			Controls.Add(pictureBox);
 
-			cellSize = new Size(10, 10);
-			gridSize = new Size(30, 30);
 			ca = new int[gridSize.Width, gridSize.Height];
 			ca = FillCA(ca, (i, j) => (j + i) % 2 == 0);
 		}
