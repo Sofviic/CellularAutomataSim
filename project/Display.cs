@@ -66,6 +66,6 @@ namespace CASim {
 			Refresh();
 		}
 
-		private int[,] Updates(int[,] grid) => grid.UpdateCA(new Func<bool[,], bool>[] { CA.sand }.Compose());
+		private int[,] Updates(int[,] grid) => grid.UpdateCA(new Func<bool[,], bool>[] { CA.conway }.Compose());
 	}
 }
